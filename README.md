@@ -1,23 +1,31 @@
 # 🌐 Natural Language Processing Main Task
 
+
 This repository focuses on various NLP tasks with support for customizable training configurations.
+
 
 ## 🚀 Run Training
 
-You can start training your models using two methods:
+
+  You can start training your models using two methods:
+
 1. **Direct Command Line Arguments**: 
   Run the training script with flags like `--batch_size`, `--epoch`, etc.
   ```bash
    python train.py --batch_size 16 --epoch 10
+  ```
+2. **Using a Configuration File**: 
 
-- We can run `python train.py` with argument `--batch_size`,`--epoch`,...
-- Another way, Running with `--config_file`
-- Creating a file for example `config.txt`
-- In this file, defining the parameter each line
+  Create a config file (e.g., `config.txt`) and specify the parameters in each line. Example `config.txt:`
+
   ```
     batch_size = 19
     model_name = "bert"
-    ...
+    # Add other parameters here...
+  ```
+  Then run the training script with the config file:
+  ```bash
+   python train.py --config_file config.txt
   ```
 
 ## Text Classification
