@@ -1,0 +1,12 @@
+'idx' , 'sentence1', 'sentence2', 'label' 
+0,"i hate money","I love money",0
+1,"sentence1_example1","sentence2_example1",1
+2,"I don't like coffee","I love coffee",0
+3,"She hates cats","He loves cats",0
+4,"I hate studying","I enjoy studying",0
+5,"Do you like movies?","I love watching movies",1
+6,"Math is hard","I think math is fun",0
+7,"He is angry","She is calm",0
+8,"The weather is bad","The weather is good",0
+9,"I hate waking up early","I love waking up early",0
+
