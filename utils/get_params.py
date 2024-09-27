@@ -20,10 +20,20 @@ def parse_config_file(file_path):
 
 def get_params():
     parser = argparse.ArgumentParser(description='Get the parameters for training')
-    parser.add_argument('--num_epoch', type=int, default=3, help='Number of epochs for training')
-    parser.add_argument('--batch_size', type=int, default=64, help='Batch size for training')
-    parser.add_argument('--learning_rate', type=float, default=5e-5, help='Learning rate for training')
-    parser.add_argument('--model_name', type=str, default='test_trainer', help='Name of the model')
+
+    # Dataset and model parameters
+    parser.add_argument('--dataset_path', type=str, default=None, help="Path to custom dataset file.")
+    parser.add_argument('--checkpoint', type=str, default="bert-base-uncased", help="Pretrained model checkpoint.")
+    parser.add_argument('--model_name', type=str, default="None", help="Name of the model to be trained.")
+    
+    # Training parameters
+    parser.add_argument('--learning_rate', type=float, default=5e-5, help="Learning rate for optimizer.")
+    parser.add_argument('--batch_size', type=int, default=8, help="Batch size for DataLoader.")
+    parser.add_argument('--num_epochs', type=int, default=3, help="Number of training epochs.")
+
+    # Hugging Face API parameters
+    parser.add_argument('--hf_token', type=str, required=True, help="Hugging Face API token.")
+    parser.add_argument('--repo_id', type=str, required=True, help="Hugging Face repository ID.")
 
     parser.add_argument('--config_file', type=str, default=None, help='Path to the configuration file')
 

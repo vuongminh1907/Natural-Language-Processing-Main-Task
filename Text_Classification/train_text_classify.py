@@ -22,15 +22,12 @@ if __name__ == "__main__":
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using {device} device")
 
-    path = "sample.txt"
-    path = None
-    # Load the dataset
-    if path is not None:
-        raw_datasets = get_custom_dataset(path)
+    if args.dataset_path is not None:
+        raw_datasets = get_custom_dataset(args.dataset_path)
     else:
         raw_datasets = load_dataset("glue", "mrpc")
 
-    checkpoint = "bert-base-uncased"
+    checkpoint = args.checkpoint
     tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 
     def tokenize_function(examples):
@@ -62,7 +59,7 @@ if __name__ == "__main__":
     optimizer = AdamW(model.parameters(), lr=5e-5)
 
     #define the parameters
-    num_epochs = 3
+    num_epochs = args.num_epochs
     num_training_steps = num_epochs * len(train_dataloader)
     lr_scheduler = get_scheduler(
         "linear",
@@ -101,20 +98,16 @@ if __name__ == "__main__":
     eval_loss = eval_loss / eval_steps
     print("Eval loss: ", eval_loss)
 
-    #model name
-    model_name = "test_trainer"
     #save the model
-    model.save_pretrained(model_name)
-    #save the tokenizer
-    tokenizer.save_pretrained(model_name)
-    print("Model saved")
-
-    api = HfApi()
-    api.upload_folder(
-        folder_path=model_name, 
-        repo_id="your_huggingface_username/your_model_repo", 
-        repo_type="model",
-        token="Your tokens" # Truyền token ở đây
-    )
-    print("Model uploaded")
+    model.save_pretrained(args.model_name)
+    tokenizer.save_pretrained(args.model_name)
+    if args.repo_id is not None:
+        api = HfApi()
+        api.upload_folder(
+            folder_path=args.model_name, 
+            repo_id=args.repo_id, 
+            repo_type="model",
+            token= args.hf_token # Truyền token ở đây
+        )
+        print("Model uploaded")
 
