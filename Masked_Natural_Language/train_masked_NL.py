@@ -9,6 +9,8 @@ import torch
 import argparse
 import math
 from tqdm.auto import tqdm
+from utils.get_dataset import get_custom_dataset
+from utils.get_params import get_params
 
 def group_texts(examples,chunk_size=128):
     # Concatenate all texts
@@ -27,12 +29,8 @@ def group_texts(examples,chunk_size=128):
     return result
 
 if __name__ == "__main__":
-    # Argument parsing for command-line options
-    parser = argparse.ArgumentParser(description='Train a BERT model for masked language modeling')
-    parser.add_argument('--num_epoch', type=int, default=3, help='Number of epochs for training')
-    parser.add_argument('--config_file', type=str, default=None, help='Path to the configuration file')
-
-    args = parser.parse_args()
+    #get the parameters for training
+    args = get_params()
 
     #Device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -43,8 +41,12 @@ if __name__ == "__main__":
     model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
+    path = "./data/masked.txt"
     # Load the dataset
-    imdb_dataset = load_dataset("imdb")
+    if path is not None:
+        imdb_dataset = get_custom_dataset(path)
+    else:
+        imdb_dataset = load_dataset("imdb")
 
     def tokenize_function(examples):
         result = tokenizer(examples["text"])
