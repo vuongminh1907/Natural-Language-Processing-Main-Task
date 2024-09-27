@@ -11,17 +11,13 @@ from sklearn.model_selection import train_test_split
 import argparse
 from huggingface_hub import HfApi
 from utils.get_dataset import get_custom_dataset
+from utils.get_params import get_params
 
 
 if __name__ == "__main__":
 
-    # Argument parsing for command-line options
-    parser = argparse.ArgumentParser(description='Train a BERT model for sequence classification')
-    parser.add_argument('--num_epoch', type=int, default=3, help='Number of epochs for training')
-    parser.add_argument('--config_file', type=str, default=None, help='Path to the configuration file')
-
-    args = parser.parse_args()
-
+    #get the parameters for training
+    args = get_params()
     #Device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using {device} device")
