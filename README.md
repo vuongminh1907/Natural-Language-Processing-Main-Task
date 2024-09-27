@@ -45,12 +45,12 @@ idx,sentence1,sentence2,label
 ```
 - Alternatively, you can use the **Hugging Face Datasets** library to load and process datasets directly.
 
-### Running training code
-
+### 🏃‍♂️ Run Training
+To train the text classification model:
 ```
 python train_text_classify.py
 ```
-### Infer
+### 🔍 Inference
 ```
 import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -64,26 +64,29 @@ tokens = tokenizer(sequences, padding=True, truncation=True, return_tensors="pt"
 output = model(**tokens)
 ```
 
-## Masked Natural Language
+## 📝 Masked Natural Language Modeling
 
-### Prepare datasets
-- Form DatasetDict
+### 📦 Dataset Preparation
+
+  Ensure your dataset follows the `DatasetDict` format with the following features:
+  ```
+  ["attention_mask", "input_ids", "labels", "token_type_ids"]
+  ```
+
+To create the dataset:
+- Save a `.txt` file with this format:
 ```
-['attention_mask', 'input_ids', 'labels', 'word_ids']
+idx,sentence
+1,"Example sentence 1"
 ```
-- Creating a file '.txt' with these format
-    ```
-    'idx' , 'sentence' 
-    1,"sentence1_example1"
-    ```
-- Another way is using HuggingFace datasets
+- Alternatively, you can use the **Hugging Face Datasets** library to load and process datasets directly.
 
-### Running training code
-
+### 🏃‍♂️ Run Training
+To train the masked language model:
 ```
 python train_masked_NL.py
 ```
-### Infer
+### 🔍 Inference
 ```
 from transformers import pipeline
 
@@ -95,4 +98,12 @@ preds = mask_filler(text)
 for pred in preds:
     print(f">>> {pred['sequence']}")
 ```
+
+## 🛠️ Additional Resources
+
+- [Hugging Face Transformers](https://huggingface.co/docs/transformers)
+- [Hugging Face Datasets](https://huggingface.co/docs/datasets)
+- [PyTorch](https://pytorch.org/)
+
+
 
