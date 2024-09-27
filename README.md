@@ -28,19 +28,22 @@ This repository focuses on various NLP tasks with support for customizable train
    python train.py --config_file config.txt
   ```
 
-## Text Classification
+## 🧑‍💻 Text Classification
 
-### Prepare datasets
-- Form DatasetDict
+### 📦 Dataset Preparation
+
+  Ensure your dataset follows the `DatasetDict` format with the following features:
+  ```
+  ["attention_mask", "input_ids", "labels", "token_type_ids"]
+  ```
+
+To create the dataset:
+- Save a `.txt` file with this format:
 ```
-["attention_mask", "input_ids", "labels", "token_type_ids"]
+idx,sentence1,sentence2,label
+1,"Example sentence 1","Example sentence 2",1
 ```
-- Creating a file '.txt' with these format
-    ```
-    'idx' , 'sentence1', 'sentence2', 'label' 
-    1,"sentence1_example1","sentence2_example1",1
-    ```
-- Another way is using HuggingFace datasets
+- Alternatively, you can use the **Hugging Face Datasets** library to load and process datasets directly.
 
 ### Running training code
 
