@@ -1,5 +1,16 @@
 # Natural Language Processing Main Task
 
+## Run Training
+- We can run `python train.py` with argument `--batch_size`,`--epoch`,...
+- Another way, Running with `--config_file`
+  Creating a file for example `config.txt`
+  In this file, defining the parameter each line
+  ```
+    batch_size = 19
+    model_name = "bert"
+    ...
+  ```
+
 ## Text Classification
 
 ### Prepare datasets
