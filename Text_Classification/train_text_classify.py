@@ -18,6 +18,7 @@ if __name__ == "__main__":
     # Argument parsing for command-line options
     parser = argparse.ArgumentParser(description='Train a BERT model for sequence classification')
     parser.add_argument('--num_epoch', type=int, default=3, help='Number of epochs for training')
+    parser.add_argument('--config_file', type=str, default=None, help='Path to the configuration file')
 
     args = parser.parse_args()
 
