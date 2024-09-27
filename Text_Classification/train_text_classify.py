@@ -5,10 +5,8 @@ from datasets import Dataset, DatasetDict
 from torch.utils.data import DataLoader
 import torch
 from tqdm.auto import tqdm
-import evaluate
 import pandas as pd
 from sklearn.model_selection import train_test_split
-import argparse
 from huggingface_hub import HfApi
 from utils.get_dataset import get_custom_dataset
 from utils.get_params import get_params
