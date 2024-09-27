@@ -29,6 +29,8 @@ This repository focuses on various NLP tasks with support for customizable train
   ```
 
 ## 🧑‍💻 Text Classification
+Text Classification is a fundamental NLP task where the goal is to categorize text into predefined labels.
+
 
 ### 📦 Dataset Preparation
 
@@ -65,6 +67,8 @@ output = model(**tokens)
 ```
 
 ## 📝 Masked Natural Language Modeling
+Masked Language Modeling involves predicting missing words in a sentence, allowing models to learn the context and relationships between words.
+
 
 ### 📦 Dataset Preparation
 
