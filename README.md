@@ -1,4 +1,4 @@
-# Natural-Language-Processing-Main-Task
+# Natural Language Processing Main Task
 
 ## Text Classification
 
