@@ -4,6 +4,7 @@ from transformers import get_scheduler, default_data_collator
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 from torch.optim import AdamW
+from huggingface_hub import HfApi
 
 import torch
 import argparse
@@ -37,14 +38,17 @@ if __name__ == "__main__":
     print(f"Using {device} device")
 
     #Load model and tokenizer
-    model_checkpoint = "distilbert-base-uncased"
+    if args.checkpoint is not None:
+        model_checkpoint = args.checkpoint
+    else:
+        model_checkpoint = "distilbert-base-uncased"
     model = AutoModelForMaskedLM.from_pretrained(model_checkpoint)
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
-    path = "./data/masked.txt"
+   
     # Load the dataset
-    if path is not None:
-        imdb_dataset = get_custom_dataset(path)
+    if args.dataset_path is not None:
+        imdb_dataset = get_custom_dataset(args.dataset_path)
     else:
         imdb_dataset = load_dataset("imdb")
 
@@ -90,7 +94,7 @@ if __name__ == "__main__":
         }
     )
 
-    batch_size = 64
+    batch_size = args.batch_size if args.batch_size is not None else 64
     train_dataloader = DataLoader(
         downsampled_dataset["train"],
         shuffle=True,
@@ -103,7 +107,7 @@ if __name__ == "__main__":
 
     optimizer = AdamW(model.parameters(), lr=5e-5)
 
-    num_train_epochs = 3
+    num_train_epochs = args.num_epochs if args.num_epochs is not None else 3   
     num_update_steps_per_epoch = len(train_dataloader)
     num_training_steps = num_train_epochs * num_update_steps_per_epoch
 
@@ -116,7 +120,7 @@ if __name__ == "__main__":
 
     progress_bar = tqdm(range(num_training_steps))
 
-    for epoch in range(num_train_epochs):
+    for epoch in range(args.num_epochs):
         # Training
         model.train()
         for step, batch in enumerate(train_dataloader):
@@ -139,10 +143,18 @@ if __name__ == "__main__":
                 losses.append(loss.item())
         print(f"Epoch {epoch} - Evaluation loss: {sum(losses) / len(losses)}")
 
-    # Save the model
-    model.save_pretrained("masked_NL_model")
-    tokenizer.save_pretrained("masked_NL_model")
-    print("Model saved")
+    #save the model
+    model.save_pretrained(args.model_name)
+    tokenizer.save_pretrained(args.model_name)
+    if args.repo_id is not None:
+        api = HfApi()
+        api.upload_folder(
+            folder_path=args.model_name, 
+            repo_id=args.repo_id, 
+            repo_type="model",
+            token= args.hf_token # Truyền token ở đây
+        )
+        print("Model uploaded")
     
 
         
