@@ -12,7 +12,7 @@ This repository focuses on various NLP tasks with support for customizable train
   
 2. **Using a Configuration File**: 
 
-  Read through `[config.md](https://github.com/vuongminh1907/Natural-Language-Processing-Main-Task/blob/main/docs/config.md)` for instruction.
+  Read through [config.md](https://github.com/vuongminh1907/Natural-Language-Processing-Main-Task/blob/main/docs/config.md) for instruction.
 
 ## 🔤 Tokenizer Training
 In this section, you'll learn how to train a tokenizer from maybe one language to another language.
