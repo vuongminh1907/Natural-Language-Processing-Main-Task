@@ -28,6 +28,20 @@ This repository focuses on various NLP tasks with support for customizable train
    python train.py --config_file config.txt
   ```
 
+## 🔤 Tokenizer Training
+In this section, you'll learn how to train a tokenizer from maybe one language to another language.
+### 📦 Dataset Preparation
+Example format of `corpus.txt`:
+```
+Tôi yêu Việt Nam.
+Cho tôi một like nhé, yêu.
+Đây là thử nghiệm NLP.
+```
+### 🏃‍♂️ Run Training
+To train a tokenizer:
+```
+python train_tokenizer.py
+```
 ## 🧑‍💻 Text Classification
 Text Classification is a fundamental NLP task where the goal is to categorize text into predefined labels.
 
