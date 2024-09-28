@@ -6,27 +6,13 @@ This repository focuses on various NLP tasks with support for customizable train
 
 ## 🚀 Run Training
 
-
   You can start training your models using two methods:
 
 1. **Direct Command Line Arguments**: 
-  Run the training script with flags like `--batch_size`, `--epoch`, etc.
-  ```bash
-   python train.py --batch_size 16 --epoch 10
-  ```
+  
 2. **Using a Configuration File**: 
 
-  Create a config file (e.g., `config.txt`) and specify the parameters in each line. Example `config.txt:`
-
-  ```
-    batch_size = 19
-    model_name = "bert"
-    # Add other parameters here...
-  ```
-  Then run the training script with the config file:
-  ```bash
-   python train.py --config_file config.txt
-  ```
+  Read through `[config.md](config.md)` for instruction.
 
 ## 🔤 Tokenizer Training
 In this section, you'll learn how to train a tokenizer from maybe one language to another language.
