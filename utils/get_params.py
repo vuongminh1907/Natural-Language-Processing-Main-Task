@@ -30,6 +30,7 @@ def get_params():
     parser.add_argument('--learning_rate', type=float, default=5e-5, help="Learning rate for optimizer.")
     parser.add_argument('--batch_size', type=int, default=8, help="Batch size for DataLoader.")
     parser.add_argument('--num_epochs', type=int, default=3, help="Number of training epochs.")
+    parser.add_argument('--vocab_size', type=int, default=None, help="Vocabulary size for training tokenizer.")
 
     # Hugging Face API parameters
     parser.add_argument('--hf_token', type=str, required=True, help="Hugging Face API token.")
