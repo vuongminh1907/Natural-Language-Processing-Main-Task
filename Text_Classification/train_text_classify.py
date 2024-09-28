@@ -7,9 +7,9 @@ import torch
 from tqdm.auto import tqdm
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from huggingface_hub import HfApi
 from utils.get_dataset import get_custom_dataset
 from utils.get_params import get_params
+from utils.upload_hug import upload_hug
 
 
 if __name__ == "__main__":
@@ -96,16 +96,9 @@ if __name__ == "__main__":
     eval_loss = eval_loss / eval_steps
     print("Eval loss: ", eval_loss)
 
-    #save the model
-    model.save_pretrained(args.model_name)
-    tokenizer.save_pretrained(args.model_name)
+    #upload hugging face
     if args.repo_id is not None:
-        api = HfApi()
-        api.upload_folder(
-            folder_path=args.model_name, 
-            repo_id=args.repo_id, 
-            repo_type="model",
-            token= args.hf_token # Truyền token ở đây
-        )
-        print("Model uploaded")
+        upload_hug(args,model=model,tokenizer=tokenizer)
+
+    
 

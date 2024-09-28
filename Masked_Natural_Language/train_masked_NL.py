@@ -1,15 +1,15 @@
 from transformers import AutoModelForMaskedLM, AutoTokenizer, DataCollatorForLanguageModeling
-from transformers import Trainer, TrainingArguments, DataCollatorForLanguageModeling
+from transformers import DataCollatorForLanguageModeling
 from transformers import get_scheduler, default_data_collator
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 from torch.optim import AdamW
-from huggingface_hub import HfApi
 
 import torch
 from tqdm.auto import tqdm
 from utils.get_dataset import get_custom_dataset
 from utils.get_params import get_params
+from utils.upload_hug import upload_hug
 
 def group_texts(examples,chunk_size=128):
     # Concatenate all texts
@@ -141,18 +141,9 @@ if __name__ == "__main__":
                 losses.append(loss.item())
         print(f"Epoch {epoch} - Evaluation loss: {sum(losses) / len(losses)}")
 
-    #save the model
-    model.save_pretrained(args.model_name)
-    tokenizer.save_pretrained(args.model_name)
+    #Upoad huggingface model
     if args.repo_id is not None:
-        api = HfApi()
-        api.upload_folder(
-            folder_path=args.model_name, 
-            repo_id=args.repo_id, 
-            repo_type="model",
-            token= args.hf_token # Truyền token ở đây
-        )
-        print("Model uploaded")
+        upload_hug(args,model=model,tokenizer=tokenizer)
     
 
         
