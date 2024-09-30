@@ -3,7 +3,6 @@ from transformers import get_scheduler, default_data_collator
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 from torch.optim import AdamW
-from huggingface_hub import HfApi
 
 import torch
 from tqdm.auto import tqdm
