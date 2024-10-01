@@ -69,12 +69,11 @@ output = model(**tokens)
 ## 📝 Masked Natural Language Modeling
 Masked Language Modeling involves predicting missing words in a sentence, allowing models to learn the context and relationships between words.
 
-
 ### 📦 Dataset Preparation
 
   Ensure your dataset follows the `DatasetDict` format with the following features:
   ```
-  ["attention_mask", "input_ids", "labels", "token_type_ids"]
+  
   ```
 
 To create the dataset:
@@ -101,6 +100,39 @@ text = "I love the [MASK]"
 preds = mask_filler(text)
 for pred in preds:
     print(f">>> {pred['sequence']}")
+```
+
+## 🌍 Translation
+This section covers how to train a translation model that converts text from one language to another.
+
+### 📦 Dataset Preparation
+
+  Ensure your dataset follows the `DatasetDict` format with the following features:
+  ```
+  DatasetDict({
+            train: Dataset({
+                features: ['id', 'translation'],
+                num_rows: 210173
+            })
+        })
+  ```
+
+To create the dataset:
+- Save a `translation_dataset.txt` file with this format:
+```
+idx,en,vie
+1,"hello","Xin chào"
+```
+- Alternatively, you can use the **Hugging Face Datasets** library to load and process datasets directly.
+
+### 🏃‍♂️ Run Training
+To train the translation model:
+```
+python train_trans.py
+```
+### 🔍 Inference
+```
+python infer_trans.py
 ```
 
 ## 🛠️ Additional Resources
