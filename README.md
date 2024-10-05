@@ -135,6 +135,41 @@ python train_trans.py
 python infer_trans.py
 ```
 
+## 📝 Summarization
+This section covers how to train a summarization model that converts long text into a concise summary.
+
+### 📦 Dataset Preparation
+
+  Ensure your dataset follows the `DatasetDict` format with the following features:
+  ```
+  DatasetDict({
+            train: Dataset({
+                features: ['Unnamed: 0', 'Document', 'Summary'],
+                num_rows: ....
+            })
+        })
+  ```
+
+To create the dataset:
+- Save a `summarization_dataset.txt` file with this format:
+```
+idx,Document,Summary
+1,"Sáng nay, tại Hà Nội, một cuộc họp quan trọng đã diễn ra giữa các nhà lãnh đạo doanh nghiệp lớn trong nước. Cuộc họp tập trung vào các vấn đề phát triển kinh tế sau đại dịch và những thách thức mà các doanh nghiệp phải đối mặt. Các đại biểu đã thảo luận về việc tăng cường hợp tác công tư, đổi mới công nghệ, và cải thiện năng suất lao động để thúc đẩy tăng trưởng kinh tế. Các chuyên gia kinh tế cũng nhấn mạnh tầm quan trọng của việc đào tạo nguồn nhân lực chất lượng cao và áp dụng các biện pháp hỗ trợ doanh nghiệp vượt qua khó khăn.","Cuộc họp tại Hà Nội bàn về phát triển kinh tế sau đại dịch và thảo luận các biện pháp hỗ trợ doanh nghiệp."
+
+```
+- Alternatively, you can use the **Hugging Face Datasets** library to load and process datasets directly.
+
+### 🏃‍♂️ Run Training
+To train the translation model:
+```
+python train_summarization.py
+```
+### 🔍 Inference
+```
+python infer_sum.py
+```
+
+
 ## 🛠️ Additional Resources
 
 - [Hugging Face Transformers](https://huggingface.co/docs/transformers)
