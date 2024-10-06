@@ -33,8 +33,8 @@ def get_params():
     parser.add_argument('--vocab_size', type=int, default=None, help="Vocabulary size for training tokenizer.")
 
     # Hugging Face API parameters
-    parser.add_argument('--hf_token', type=str, required=True, help="Hugging Face API token.")
-    parser.add_argument('--repo_id', type=str, required=True, help="Hugging Face repository ID.")
+    parser.add_argument('--hf_token', type=str, required=False, help="Hugging Face API token.")
+    parser.add_argument('--repo_id', type=str, required=False, help="Hugging Face repository ID.")
 
     parser.add_argument('--config_file', type=str, default=None, help='Path to the configuration file')
 
