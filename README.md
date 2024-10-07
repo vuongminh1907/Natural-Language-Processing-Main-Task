@@ -87,7 +87,7 @@ idx,sentence
 ### 🏃‍♂️ Run Training
 To train the masked language model:
 ```
-python train_masked_NL.py
+python Masked_Natural_Language/train_masked_NL.py
 ```
 ### 🔍 Inference
 ```
