@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from transformers import AutoTokenizer, DataCollatorWithPadding, Trainer, TrainingArguments, AutoModelForSequenceClassification, AdamW
 from transformers import get_scheduler
 from datasets import load_dataset
@@ -10,6 +14,9 @@ from sklearn.model_selection import train_test_split
 from utils.get_dataset import get_custom_dataset
 from utils.get_params import get_params
 from utils.upload_hug import upload_hug
+
+def tokenize_function(examples, tokenizer):
+    return tokenizer(examples["sentence1"], examples["sentence2"], truncation=True)
 
 
 if __name__ == "__main__":
@@ -28,10 +35,10 @@ if __name__ == "__main__":
     checkpoint = args.checkpoint
     tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 
-    def tokenize_function(examples):
-        return tokenizer(examples["sentence1"], examples["sentence2"], truncation=True)
-
-    tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)
+    tokenized_datasets = raw_datasets.map(
+        lambda examples: tokenize_function(examples, tokenizer),
+        batched=True,
+    )
     tokenized_datasets = tokenized_datasets.rename_column("label", "labels")
 
     #get the columns

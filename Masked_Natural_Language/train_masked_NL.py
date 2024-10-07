@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from transformers import AutoModelForMaskedLM, AutoTokenizer, DataCollatorForLanguageModeling
 from transformers import DataCollatorForLanguageModeling
 from transformers import get_scheduler, default_data_collator
@@ -16,6 +20,8 @@ def group_texts(examples,chunk_size=128):
     concatenated_examples = {k: sum(examples[k], []) for k in examples.keys()}
     # Compute length of concatenated texts
     total_length = len(concatenated_examples[list(examples.keys())[0]])
+    if total_length < chunk_size:
+        chunk_size = total_length//2
     # We drop the last chunk if it's smaller than chunk_size
     total_length = (total_length // chunk_size) * chunk_size
     # Split by chunks of max_len
@@ -26,6 +32,12 @@ def group_texts(examples,chunk_size=128):
     # Create a new labels column
     result["labels"] = result["input_ids"].copy()
     return result
+
+def tokenize_function_mask(examples, tokenizer):
+        result = tokenizer(examples["text"])
+        if tokenizer.is_fast:
+            result["word_ids"] = [result.word_ids(i) for i in range(len(result["input_ids"]))]
+        return result
 
 if __name__ == "__main__":
     #get the parameters for training
@@ -50,25 +62,25 @@ if __name__ == "__main__":
     else:
         imdb_dataset = load_dataset("imdb")
 
-    def tokenize_function(examples):
-        result = tokenizer(examples["text"])
-        if tokenizer.is_fast:
-            result["word_ids"] = [result.word_ids(i) for i in range(len(result["input_ids"]))]
-        return result
-    
+ 
     tokenized_datasets = imdb_dataset.map(
-        tokenize_function, batched=True, remove_columns=["text", "label"]
+        lambda examples: tokenize_function_mask(examples, tokenizer),
+        batched=True, remove_columns=["text", "label"]
     )
 
     lm_datasets = tokenized_datasets.map(group_texts, batched=True)
 
-    #down sample the dataset
-    train_size = 10_000
-    test_size = int(0.1 * train_size)
+    if args.dataset_path is None:
+        #down sample the dataset
+        train_size = 10_000
+        test_size = int(0.1 * train_size)
 
-    downsampled_dataset = lm_datasets["train"].train_test_split(
-        train_size=train_size, test_size=test_size, seed=42
-    )
+        downsampled_dataset = lm_datasets["train"].train_test_split(
+            train_size=train_size, test_size=test_size, seed=42
+        )
+    else:
+        lm_datasets.pop('validation')
+        downsampled_dataset = lm_datasets
 
     data_collator = DataCollatorForLanguageModeling(tokenizer=tokenizer, mlm_probability=0.15)
 
@@ -84,6 +96,7 @@ if __name__ == "__main__":
         batched=True,
         remove_columns=downsampled_dataset["test"].column_names,
     )
+
     eval_dataset = eval_dataset.rename_columns(
         {
             "masked_input_ids": "input_ids",
@@ -103,7 +116,7 @@ if __name__ == "__main__":
         eval_dataset, batch_size=batch_size, collate_fn=default_data_collator
     )
 
-    optimizer = AdamW(model.parameters(), lr=5e-5)
+    optimizer = AdamW(model.parameters(), lr=args.learning_rate)
 
     num_train_epochs = args.num_epochs if args.num_epochs is not None else 3   
     num_update_steps_per_epoch = len(train_dataloader)

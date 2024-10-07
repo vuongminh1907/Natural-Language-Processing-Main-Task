@@ -50,7 +50,7 @@ idx,sentence1,sentence2,label
 ### 🏃‍♂️ Run Training
 To train the text classification model:
 ```
-python train_text_classify.py
+python Text_Classification/train_text_classify.py
 ```
 ### 🔍 Inference
 ```

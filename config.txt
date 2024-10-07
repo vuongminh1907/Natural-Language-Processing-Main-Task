@@ -1,2 +1,3 @@
 batch_size = 19
-get = True
+model_name = "minhclassify"
+dataset_path = "/content/Natural-Language-Processing-Main-Task/data/masked.txt"

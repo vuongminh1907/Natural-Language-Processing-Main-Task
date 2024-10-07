@@ -37,6 +37,9 @@ def get_params():
     parser.add_argument('--repo_id', type=str, required=False, help="Hugging Face repository ID.")
 
     parser.add_argument('--config_file', type=str, default=None, help='Path to the configuration file')
+    
+    #Type of task: Classification, Masked Language Model, Question Answering, Translation, Summarization
+    parser.add_argument('--task', type=str, choices=['classify', 'mask', 'qa', 'trans', 'sum'], default='classify', help='Type of task to be performed')
 
     args = parser.parse_args()
 
